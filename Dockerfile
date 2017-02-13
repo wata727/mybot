@@ -10,8 +10,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && apt-get -y update \
   && apt-get -y install yarn
 
-RUN git clone https://github.com/wata727/mybot.git \
-  && cd mybot \
-  && yarn install
+RUN mkdir -p /mybot
+COPY . /mybot
+WORKDIR /mybot
 
-CMD cd mybot && bin/hubot --adapter slack
+RUN yarn install
+
+CMD ["bin/hubot", "--adapter", "slack"]
